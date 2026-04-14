@@ -1,4 +1,11 @@
-# ExternalConfigFetcher + Reflector (Technical Documentation)
+# ReflectorTrunkManager - Documentation
+
+**Author:** Peter Lundberg / SA2BLV  
+**Date:** 2026-04-11  
+**Version:** 1.0  
+**License:** GNU General Public License v2.0+
+
+---
 
 ## Overview
 This system implements a remote configuration pipeline where a client periodically fetches a full JSON configuration snapshot and applies only incremental changes using a diff-based approach.
@@ -55,6 +62,7 @@ Examples:
 - USERS
 - TALKGROUPS
 - SETTINGS
+- PTY
 
 ---
 
@@ -141,8 +149,7 @@ Saved to `config.json`:
 ```json
 {
   "USERS": { ... },
-  "TALKGROUPS": { ... },
-  "SETTINGS": { ... }
+  "TALKGROUPS": { ... }
 }
 ```
 
