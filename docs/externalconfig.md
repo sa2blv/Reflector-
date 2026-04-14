@@ -52,6 +52,10 @@ This system implements a remote configuration pipeline where a client periodical
   ]
 }
 ```
+## Config parameter [GLOBAL]
+REMOTE_CONFIG_URL=https://example.com/aopo
+REMOTE_CONFIG_KEY=API_KEY
+REMOTE_CONFIG_ID=Serverid
 
 ---
 
