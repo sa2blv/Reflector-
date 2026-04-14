@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import socket
+import yaml
+import requests
+
+from cryptography import x509
+from cryptography.x509.oid import NameOID, ExtensionOID
+from cryptography.x509.extensions import ExtensionNotFound
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import serialization
+
+
+config = {}
+
+
+# ---------------------------
+# Load config
+# ---------------------------
+def load_config():
+    global config
+
+    paths = [
+        "ca-hook.yaml",
+        "/etc/svxlink/ca-hook.yaml",
+        f"{os.getenv('HOME')}/.svxlink/ca-hook.yaml" if os.getenv("HOME") else None,
+    ]
+
+    for path in paths:
+        if path and os.path.exists(path):
+            with open(path, "r") as f:
+                config = yaml.safe_load(f)
+                return
+
+    print("*** ERROR: No config file found")
+    sys.exit(1)
+
+
+# ---------------------------
+# HTTP POST
+# ---------------------------
+def send_http(data):
+    url = config.get("HTTP_URL")
+
+    if not url:
+        print("*** ERROR: HTTP_URL not set")
+        return 1
+
+    # Lägg till auth i JSON
+    payload = {
+        **data,
+        "api_key": config.get("API_KEY"),
+        "node_id": config.get("NODE_ID"),
+    }
+
+    try:
+        response = requests.post(url, json=payload, timeout=10)
+
+        if config.get("HTTP_DEBUG"):
+            print("\n=== HTTP DEBUG ===")
+            print("URL:", url)
+            print("PAYLOAD:", payload)
+            print("STATUS:", response.status_code)
+            print("RESPONSE:", response.text)
+            print("==================\n")
+
+        response.raise_for_status()
+        return 0
+
+    except Exception as e:
+        print(f"*** ERROR sending HTTP POST: {e}")
+        return 1
+
+
+# ---------------------------
+# Helpers
+# ---------------------------
+def get_callsign(subject):
+    cn = subject.get_attributes_for_oid(NameOID.COMMON_NAME)
+    return cn[0].value if cn else ""
+
+
+def get_emails(obj):
+    try:
+        san = obj.extensions.get_extension_for_oid(
+            ExtensionOID.SUBJECT_ALTERNATIVE_NAME
+        )
+        return san.value.get_values_for_type(x509.RFC822Name)
+    except ExtensionNotFound:
+        return []
+
+
+# ---------------------------
+# Event handlers
+# ---------------------------
+def handle_pending(event_name, csr):
+    return send_http({
+        "event": event_name,
+        "callsign": get_callsign(csr.subject),
+        "subject": csr.subject.rfc4514_string(),
+        "hostname": socket.gethostname(),
+        "email": get_emails(csr),
+        "csr": csr.public_bytes(
+            serialization.Encoding.PEM
+        ).decode(),
+    })
+
+
+def handle_signed(cert):
+    return send_http({
+        "event": "CSR_SIGNED",
+        "callsign": get_callsign(cert.subject),
+        "serial_number": cert.serial_number,
+        "issuer": cert.issuer.rfc4514_string(),
+        "subject": cert.subject.rfc4514_string(),
+        "not_before": str(cert.not_valid_before),
+        "not_after": str(cert.not_valid_after),
+        "email": get_emails(cert),
+        "hostname": socket.gethostname(),
+    })
+
+
+def handle_renewed(cert):
+    return send_http({
+        "event": "CRT_RENEWED",
+        "callsign": get_callsign(cert.subject),
+        "serial_number": cert.serial_number,
+        "issuer": cert.issuer.rfc4514_string(),
+        "subject": cert.subject.rfc4514_string(),
+        "not_before": str(cert.not_valid_before),
+        "not_after": str(cert.not_valid_after),
+        "email": get_emails(cert),
+        "hostname": socket.gethostname(),
+    })
+
+
+# ---------------------------
+# Main
+# ---------------------------
+def main():
+    load_config()
+
+    op = os.getenv("CA_OP")
+
+    if not op:
+        print("*** ERROR: CA_OP not set")
+        return 1
+
+    if op in ["PENDING_CSR_CREATE", "PENDING_CSR_UPDATE"]:
+        csr_pem = os.getenv("CA_CSR_PEM")
+
+        if not csr_pem:
+            print("*** ERROR: CA_CSR_PEM not set")
+            return 1
+
+        csr = x509.load_pem_x509_csr(
+            csr_pem.encode(), default_backend()
+        )
+
+        return handle_pending(op, csr)
+
+    elif op in ["CSR_SIGNED", "CRT_RENEWED"]:
+        cert_pem = os.getenv("CA_CRT_PEM")
+
+        if not cert_pem:
+            print("*** ERROR: CA_CRT_PEM not set")
+            return 1
+
+        cert = x509.load_pem_x509_certificate(
+            cert_pem.encode(), default_backend()
+        )
+
+        if op == "CSR_SIGNED":
+            return handle_signed(cert)
+        else:
+            return handle_renewed(cert)
+
+    print(f"*** WARNING: Unknown CA_OP={op}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
