@@ -32,17 +32,20 @@ This system implements a remote configuration pipeline where a client periodical
 ```json
 {
   "USERS": {
-    "SM0ABC": "password123",
-    "SA2XYZ": "password456"
+    "SM0ABC": "Profile1",
+    "SA2XYZ": "Profile2"
   },
-  "TALKGROUPS": {
-    "2400": "enabled",
-    "2401": "enabled"
+  "PASSWORDS": {
+    "Profile1": "Password1",
+    "Profile2": "Password2"
   },
-  "SETTINGS": {
-    "timeout": "30",
-    "mode": "auto"
-  },
+  "TG#9999":
+{
+  "AUTO_QSY_AFTER":300
+  "ALLOW":S[A-M]\\\\d.*|LA8PV
+  "ALLOW_MONITOR":S[A-M]3.*
+  "SHOW_ACTIVITY":0
+},
   "PTY": [
     "COMMAND1",
     "COMMAND2"
