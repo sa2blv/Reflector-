@@ -1,3 +1,11 @@
+  _____       __ _           _                    
+ |  __ \     / _| |         | |              _    
+ | |__) |___| |_| | ___  ___| |_ ___  _ __ _| |_  
+ |  _  // _ \  _| |/ _ \/ __| __/ _ \| '__|_   _| 
+ | | \ \  __/ | | |  __/ (__| || (_) | |    |_|   
+ |_|  \_\___|_| |_|\___|\___|\__\___/|_|          
+
+                                          
 # Reflector+ Is a trunking reflector with support for multiple trunk types.
 
 Reflector+ is a fork of [SvxReflector](https://github.com/sm0svx/svxlink)
@@ -8,11 +16,8 @@ analogous to telephone trunk lines between telephone exchanges.
 Original SvxReflector by Tobias Blomberg / SM0SVX.
 GEU Trunk extension by IW1GEU.
 UDPtrunk extension by SA2BLV.
-
-
-
-
-
+ExternalConfig extension by SA2BLV.
+RoutingTable extension by SA2BLV.
 ---
 
 ## Why trunking?
