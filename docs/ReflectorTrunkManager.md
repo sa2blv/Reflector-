@@ -494,49 +494,13 @@ if (data_len < 16) {
 
 ---
 
-## Compilation and Dependencies
-
-### Required Dependencies
-
-```
-- libsigc++-2.0
-- libAsync (Async C++ library)
-- jsoncpp
-- OpenSSL (for AES encryption)
-```
-
-### Compilation
-
-```bash
-g++ -std=c++17 -I/usr/include/sigc++-2.0 \
-    -I/usr/include/json \
-    -o program ReflectorTrunkManager.cpp \
-    -lsigc-2.0 -ljsoncpp -lssl -lcrypto -lpthread
-```
-
-### Installation on Debian/Ubuntu
-
-```bash
-# Install dependencies
-sudo apt-get install libsigc++-2.0-dev libjsoncpp-dev libssl-dev
-
-# Compile and install
-make
-sudo make install
-```
 
 ---
 
 ## Future Improvements
 
-- [ ] Full IPv6 support
 - [ ] Backup host functionality
 - [ ] Dynamic peer addition/removal without restart
-- [ ] WebUI for status and configuration
-- [ ] Prometheus metrics export
-- [ ] Better logging (syslog integration)
-- [ ] Latency monitoring between peers
-- [ ] Performance optimization for high-load scenarios
 - [ ] Redundancy and failover mechanisms
 
 ---
