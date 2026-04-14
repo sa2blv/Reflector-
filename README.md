@@ -220,21 +220,22 @@ when applicable.
   as a drop-in replacement for an existing SvxReflector installation
 - [`docs/DOCKER.md`](docs/DOCKER.md) — running GeuReflector in a Docker container
   as a drop-in replacement for an existing SvxReflector installation
-- [`docs/TRUNK_PROTOCOL.md`](docs/TRUNK_PROTOCOL.md) — full wire protocol
+- [`docs/TRUNK_PROTOCOL.md`](docs/TRUNK_PROTOCOL.md) — GEU full wire protocol
   specification: message format, handshake sequence, talker arbitration
   tie-breaking, heartbeat, and the complete message type table
-- [`docs/DEPLOYMENT_ITALY.md`](docs/DEPLOYMENT_ITALY.md) — complete national
-  deployment example for Italy (20 regions, full mesh)
-- [`docs/DEPLOYMENT_ITALY_IT.md`](docs/DEPLOYMENT_ITALY_IT.md) — same document
-  in Italian
-- [`docs/WW_DEPLOYMENT.md`](docs/WW_DEPLOYMENT.md) — worldwide deployment
-  example (25 countries, full mesh, DMR MCC-based TG numbering)
-- [`docs/MQTT.md`](docs/MQTT.md) — MQTT publishing: topic structure, payload
-  format, configuration reference, and TLS setup
-- [`docs/MESSAGING_IDEAS.md`](docs/MESSAGING_IDEAS.md) — ideas for consuming
-  MQTT events via Telegram, SMS, Discord, webhooks, dashboards, and more
 - [`docs/DESIGN_SATELLITE_AND_CLUSTER.md`](docs/DESIGN_SATELLITE_AND_CLUSTER.md) — design
   rationale for satellite reflectors and cluster TGs
+
+- [`docs/Config-example.md`](docs/Config-example.md) — Configuration example
+  
+- [`docks/ExternalConfig.md`](docs/ExternalConfig.md) — Remote configuration poller.
+
+- [`docks/SetupUDPTrunk.md`](docs/SetupUDPTrunk.md) — Udp Trunk setup guide.
+
+- [`docks/ReflectorTrunkManager.md`](docs/ReflectorTrunkManager.md) — ReflectorTrunkManager documentation
+
+- [`docks/ReflectorTrunkManager.md`](docs/GeuTrunk.md) — Geu trunk documentation
+
 - [`tests/TESTS.md`](tests/TESTS.md) — integration test suite documentation:
   topology, test cases, harness components, and how to run
 
