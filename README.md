@@ -1,12 +1,15 @@
-# GeuReflector
+# Reflector+ Is a trunking reflector with supprt.
 
 GeuReflector is a fork of [SvxReflector](https://github.com/sm0svx/svxlink)
-extended with a **server-to-server trunk protocol** that lets multiple reflector
+extended with a **server-to-server trunkoing protocols** that lets multiple reflector
 instances share talk groups (TGs) as independent parallel voice channels —
 analogous to telephone trunk lines between telephone exchanges.
 
 Original SvxReflector by Tobias Blomberg / SM0SVX.
-Trunk extension by IW1GEU.
+GEU Trunk extension by IW1GEU.
+UDPtrunk extension by SA2BLV.
+
+
 
 ---
 
@@ -82,7 +85,7 @@ reflectors hear the same audio on TG 25 with no extra configuration.
 ## Build
 
 Requires the same dependencies as SvxReflector: libsigc++, OpenSSL, libjsoncpp,
-libpopt, libmosquitto. Optional: libopus, libgsm, libspeex.
+libpopt, libmosquitto. Optional: libopus, libgsm, libspeex. libpaho-mqttpp-dev
 
 ```bash
 cd geureflector
