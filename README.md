@@ -207,6 +207,79 @@ static configuration in a single response:
 }
 ```
 
+### `GET /geu_status`
+
+Returns live state (nodes, trunk connections, active talkers, satellites) and
+static configuration in a single response:
+
+```json
+{
+  "version": "1.0.0",
+  "mode": "reflector",
+  "local_prefix": ["1"],
+  "listen_port": "5300",
+  "http_port": "8080",
+  "nodes": { ... },
+  "cluster_tgs": [222, 2221, 91],
+  "geu_trunks": {
+    "TRUNK_2": {
+      "host": "reflector-b.example.com",
+      "port": 5302,
+      "connected": true,
+      "local_prefix": ["1"],
+      "remote_prefix": ["2"],
+      "active_talkers": {
+        "222": "IW1GEU",
+        "25": "SM0ABC"
+      }
+    }
+  },
+
+  "Routing_table": [
+    {
+      "callsign": "SK2ABC",
+      "tg": 0,
+      "tg_monitor": [
+        24022
+      ],
+      "trunk": "44.5.24.205"
+    },
+  "trunks": [
+    {
+      "Port": 5500,
+      "activeFilter_TG": 0,
+      "activeTalkgroups": [],
+      "heartBeatRecived": 2,
+      "heartBeatSend": 2,
+      "host": "1.2.3.4",
+      "name": "TrunkPeer#peer1",
+      "qualify": 1,
+      "retransmitt_Trunk": 1,
+      "status": true,
+      "translation": [],
+      "translationDest": [],
+      "translationFile": "",
+      "trunkType": "B",
+      "trunkTypeSend": "A,B",
+      "useTgTranslation": false
+    },],
+
+  "satellites": {
+    "my-satellite": {
+      "id": "my-satellite",
+      "authenticated": true,
+      "active_tgs": [1, 100]
+    }
+  },
+  "satellite_server": {
+    "listen_port": "5303",
+    "connected_count": 2
+  }
+}
+```
+
+
+
 `active_talkers` lists TGs with an active remote talker at query time (both
 prefix-based and cluster TGs). `satellites` and `satellite_server` appear only
 when applicable.
