@@ -1,6 +1,6 @@
 # Reflector+ Is a trunking reflector with support for multiple trunk types.
 
-GeuReflector is a fork of [SvxReflector](https://github.com/sm0svx/svxlink)
+Reflector+ is a fork of [SvxReflector](https://github.com/sm0svx/svxlink)
 extended with a **server-to-server trunkoing protocols** that lets multiple reflector
 instances share talk groups (TGs) as independent parallel voice channels —
 analogous to telephone trunk lines between telephone exchanges.
@@ -40,7 +40,7 @@ automatically.
 
 ## What it adds over SvxReflector
 
-## BLV TRinking
+## BLV trunking
 
 - **Talkgroup Management** - Handles talkgroups per client, Auto QSY, monitored TGs
 - **Trunk Linking** - Connections between multiple peer reflectors with node list exchange
