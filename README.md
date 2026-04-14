@@ -1,12 +1,17 @@
-# GeuReflector
+# Reflector+ Is a trunking reflector with support for multiple trunk types.
 
-GeuReflector is a fork of [SvxReflector](https://github.com/sm0svx/svxlink)
-extended with a **server-to-server trunk protocol** that lets multiple reflector
+Reflector+ is a fork of [SvxReflector](https://github.com/sm0svx/svxlink)
+extended with a **server-to-server trunkoing protocols** that lets multiple reflector
 instances share talk groups (TGs) as independent parallel voice channels —
 analogous to telephone trunk lines between telephone exchanges.
 
 Original SvxReflector by Tobias Blomberg / SM0SVX.
-Trunk extension by IW1GEU.
+GEU Trunk extension by IW1GEU.
+UDPtrunk extension by SA2BLV.
+
+
+
+
 
 ---
 
@@ -31,7 +36,19 @@ automatically.
 
 ---
 
+
+
 ## What it adds over SvxReflector
+
+## BLV trunking
+
+- **Talkgroup Management** - Handles talkgroups per client, Auto QSY, monitored TGs
+- **Trunk Linking** - Connections between multiple peer reflectors with node list exchange
+- **Routing & Node Management** - Dynamic routing table with nodes (callsign, TG, trunk)
+- **MQTT Messaging** - Message handling 
+- **Remote Configuration Management** - Asynchronous configuration and file I/O
+
+## GEU Trunking
 
 - **Prefix-based TG ownership** — each reflector is authoritative for all TGs
   whose decimal representation starts with a configured digit string (e.g.
@@ -54,11 +71,7 @@ automatically.
   large deployments
 - **HTTP `/status` endpoint** — JSON status with trunk state,
   active talkers, satellite connections, and static configuration
-- **MQTT publishing** — real-time event-driven updates (talker, client,
-  trunk state, receiver signal levels) to an external MQTT broker, plus
-  configurable periodic full status dumps
-- SvxLink client nodes are **unmodified** — they connect to their local
-  reflector as normal and are unaware of the trunk
+
 
 ---
 
@@ -82,7 +95,7 @@ reflectors hear the same audio on TG 25 with no extra configuration.
 ## Build
 
 Requires the same dependencies as SvxReflector: libsigc++, OpenSSL, libjsoncpp,
-libpopt, libmosquitto. Optional: libopus, libgsm, libspeex.
+libpopt, libmosquitto. Optional: libopus, libgsm, libspeex. libpaho-mqttpp-dev
 
 ```bash
 cd geureflector
@@ -222,7 +235,10 @@ run behind NAT, just like a regular SvxLink client node.
 | 5300 | TCP+UDP | Inbound | All reflectors (client connections) |
 | 5302 | TCP | Inbound | All trunk mesh reflectors (peer connections) |
 | 5303 | TCP | Inbound | Parent reflectors accepting satellites |
+| 5500 | UDP | Inbound | udp trunk mesh reflectors |
+| 5500 | UDP | Outbound | udp trunk mesh reflectors |
 | — | TCP | Outbound | Satellites (no inbound ports needed) |
+
 
 ### Full-mesh example — three reflectors
 
