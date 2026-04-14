@@ -149,8 +149,7 @@ Saved to `config.json`:
 ```json
 {
   "USERS": { ... },
-  "TALKGROUPS": { ... },
-  "SETTINGS": { ... }
+  "TALKGROUPS": { ... }
 }
 ```
 
